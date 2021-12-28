@@ -31,25 +31,7 @@ const InventoryPage = () => {
                 <br />
                 강화 확률 주문서 (5%) : {data.inven.items[a3]}개
                 <br />
-                무기 1 : {data.inven.weapon.grade0}개
-                <br />
-                무기 2 : {data.inven.weapon.grade1}개
-                <br />
-                무기 3 : {data.inven.weapon.grade2}개
-                <br />
-                무기 4 : {data.inven.weapon.grade3}개
-                <br />
-                무기 5 : {data.inven.weapon.grade4}개
-                <br />
-                무기 6 : {data.inven.weapon.grade5}개
-                <br />
-                무기 7 : {data.inven.weapon.grade6}개
-                <br />
-                무기 8 : {data.inven.weapon.grade7}개
-                <br />
-                무기 9 : {data.inven.weapon.grade8}개
-                <br />
-                무기 10 : {data.inven.weapon.grade9}개
+                무기 : {data.inven.weapon.grade}단계
             </p>
             : 
             ""}
