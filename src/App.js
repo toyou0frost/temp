@@ -31,7 +31,7 @@ function App() {
             <Route exact path='/Enhance' element={ <EnhancePage/> } />
             <Route exact path='/Inventory' element={ <InventoryPage/> } />
             <Route exact path='/Store' element={ <StorePage/> } />
-            <Route exact path='/' element={ <MainPage />} />
+            <Route exact path='/' element={ <GamePage />} />
           </Routes>
         </Router>
       </UserData.Provider>

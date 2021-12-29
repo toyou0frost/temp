@@ -4,6 +4,7 @@ import UserData from '../../provider/UserData';
 import { UserDataObject } from '../object/UserDataObject';
 import styled from 'styled-components';
 
+import Ending from './Ending';
 import { weaponName } from '../object/WeaponName';
 
 const EnhancePageStyle = styled.div`
@@ -30,6 +31,7 @@ const EnhancePageStyle = styled.div`
 
 const EnhancePage = () => {
     const [data, setData] = useState(Object);
+    const [popup, setPopup] = useState(true);
     const [isGet, setIsGet] = useState(false);
     const [n, setN] = useState(0);
     const [d, setD] = useState(0);
@@ -46,14 +48,14 @@ const EnhancePage = () => {
     let alt = `${grade}강`
     let img = <img src={url} alt={alt} />;
     useEffect(() => {
-        console.log(data)
+        // console.log(data)
         if(n === 0){
             setIsGet(true);
         }
     }, [data])
 
     useEffect(() => {
-        console.log(data);
+        // console.log(data);
         setIsGet(true)
     }, [i])
 
@@ -94,7 +96,7 @@ const EnhancePage = () => {
                     setN(0);
                 }
                 else{
-                    if(grade >= 10){
+                    if(grade >= 10 && UserDataObject.inven.items['파괴방지 주문서'] !== 0){
                         UserDataObject.inven.items['파괴방지 주문서'] -= 1;
                     }
                     setReload(reload + 1);
@@ -102,12 +104,13 @@ const EnhancePage = () => {
             }
         }
         else{
-            if(Math.random() < 1 - n - 0.1){
+            if(Math.random() < 1 - n + 0.1){
                 UserDataObject.inven.weapon.grade += 1;
                 setI(i + 1);
                 setReload(reload + 1);
             }
             else{
+                console.log(1 - n + 0.1);
                 if(Math.random() > 1-d && UserDataObject.inven.items['파괴방지 주문서'] === 0){
                     UserDataObject.inven.weapon.grade = 1;
                     setGrade(1);
@@ -137,10 +140,11 @@ const EnhancePage = () => {
             {data.money !== undefined ?
                 <h2>파괴 방지 주문서 : {UserDataObject.inven.items['파괴방지 주문서']}개 강화 확률 주문서 (10%) : {UserDataObject.inven.items['강화 확률 주문서 (10%)']}개</h2>
             : ""}
-            <h2>{weaponName[grade - 1]} ({grade}강) {grade !== 15 ? `성공 확률 : ${(1-n)*100}% 파괴 확률 : ${100 - (1-d)*100}%` : ""}</h2>
-            <h2>{`가격 : ${(50000*(grade)*(grade)*(grade)*(grade)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 강화 비용 : ${(5000*(grade)*(grade)*(grade)*(grade)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</h2>
+            <h2>{weaponName[grade - 1]} ({grade}강) {grade !== 15 ? UserDataObject.inven.items["강화 확률 주문서 (10%)"] !== 0 ?  `성공 확률 : ${(1 - n + 0.1)*100}% 파괴 확률 : ${100 - (1-d)*100}%` : `성공 확률 : ${(1 - n)*100}% 파괴 확률 : ${100 - (1-d)*100}%` : ""}</h2>
+            <h2>{grade !== 15 ? `가격 : ${(50000*(grade)*(grade)*(grade)*(grade)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 강화 비용 : ${(5000*(grade)*(grade)*(grade)*(grade)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}` : `가격 : ${(50000*(grade)*(grade)*(grade)*(grade)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원`}</h2>
             {img}
             <button onClick={Enhance}>무기 강화</button>
+            {grade === 15 && popup ? <Ending onClose={setPopup} /> : ""}
             <Link to="/Game">돌아가기</Link>
         </EnhancePageStyle>
     )
